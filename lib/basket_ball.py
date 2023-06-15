@@ -90,11 +90,10 @@ def game_dict():
                 },
             ],
         },
-            
         "away": {
             "team_name": "Washington Wizards",
             "colors": ["Red", "White", "Navy Blue"],
-            "players": [   
+            "players": [
                 {
                     "name": "Bradley Beal",
                     "number": 3,
@@ -179,6 +178,108 @@ def game_dict():
                     "height_inches": 80,
                     "shoe_brand": "Jordan",
                 },
-            ]
-        }
+            ],
+        },
     }
+
+
+dict = game_dict()
+
+home_dict = game_dict()["home"]
+
+away_dict = game_dict()["away"]
+
+home_players_dict = home_dict["players"]
+
+away_players_dict = away_dict["players"]
+
+
+def num_points_per_game(name):
+    for player in home_players_dict + away_players_dict:
+        if player["name"].lower() == name.lower():
+            return player["points_per_game"]
+
+
+# print(num_points_per_game(name="rui hachimura"))
+
+
+def player_age(name):
+    for player in home_players_dict + away_players_dict:
+        if player["name"].lower() == name.lower():
+            return player["age"]
+
+
+# print(player_age(name="rui hachimura"))
+
+
+# def team_colors(team_name):
+#     if home_dict["team_name"].lower() == team_name.lower():
+#         return home_dict["colors"]
+#     if away_dict["team_name"].lower() == team_name.lower():
+#         return home_dict["colors"]
+
+
+def team_colors(team_name):
+    for team in dict.values():
+        if team["team_name"].lower() == team_name.lower():
+            return team["colors"]
+
+
+# print(team_colors(team_name="Cleveland Cavaliers"))
+# print(team_colors(team_name="Washington Wizards"))
+
+
+def team_names():
+    team_name_list = []
+    for team in dict.values():
+        team_name_list.append(team["team_name"])
+    return team_name_list
+
+
+print(team_names())
+
+
+def player_numbers(team_name):
+    if team_name == home_dict["team_name"]:
+        jersey_list = [player["number"] for player in home_players_dict]
+    if team_name == away_dict["team_name"]:
+        jersey_list = [player["number"] for player in away_players_dict]
+
+    return jersey_list
+
+
+# print(player_numbers(team_name="Washington Wizards"))
+
+
+def player_stats(name):
+    for player in home_players_dict + away_players_dict:
+        if player["name"] == name:
+            return player
+
+
+# print(player_stats("Darius Garland"))
+
+
+def shoe_rebound_dict():
+    shoe_dict = {}
+    for player in home_players_dict + away_players_dict:
+        if not player["shoe_brand"] in shoe_dict:
+            shoe_dict[player["shoe_brand"]] = []
+            shoe_dict[player["shoe_brand"]].append(player["rebounds_per_game"])
+        elif player["shoe_brand"] in shoe_dict:
+            shoe_dict[player["shoe_brand"]].append(player["rebounds_per_game"])
+    return shoe_dict
+
+
+shoe_dict = shoe_rebound_dict()
+
+
+def average_rebounds_by_shoe_brand():
+    for brand, rebound in shoe_dict.items():
+        average_rebound = sum(rebound) / len(rebound)
+        print(f"{brand}:  {average_rebound:.2f}")
+
+
+print(average_rebounds_by_shoe_brand())
+
+# print(shoe_rebound_dict())
